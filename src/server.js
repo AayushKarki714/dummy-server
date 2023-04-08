@@ -7,6 +7,12 @@ const app = express();
 const server = http.createServer(app);
 
 app.use(cors());
+
+app.get("/", async (req, res) => {
+  const users = await prisma.user.findMany();
+  return res.status(200).json({ users });
+});
+
 app.post("/user", async (req, res) => {
   const { userName, email } = req.body;
   const user = await prisma.user.create({
